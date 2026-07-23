@@ -241,13 +241,11 @@
       display: block;
     }
 
-    /* fig1: 작게 */
     .fig-sm {
       max-width: 480px;
       margin: 0 auto;
     }
 
-    /* fig2 overview: 크게 — 카드 패딩 줄이고 이미지 꽉 채움 */
     .fig-lg {
       max-width: 100%;
     }
@@ -267,7 +265,6 @@
     }
     .fig-caption strong { color: var(--text-mid); }
 
-    /* 1컬럼 세로 스택 */
     .one-col {
       display: flex;
       flex-direction: column;
@@ -304,6 +301,12 @@
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: none; }
+
+    .ablation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
   </style>
 </head>
 <body>
@@ -311,10 +314,9 @@
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
-
-  <!-- HERO -->
+  
   <header>
-    <div class="venue-badge">ACL 2025 Submission</div>
+    <div class="venue-badge">ARR 2026 Submission</div>
     <h1 class="fade-up delay-1">
       Curate and Collaborate:<br>
       <span class="highlight">Federated Meta In-Context Learning</span><br>
@@ -331,8 +333,7 @@
       </a>
     </div>
   </header>
-
-  <!-- ABSTRACT -->
+  
   <section>
     <div class="container">
       <div class="section-label">Abstract</div>
@@ -340,8 +341,8 @@
         <p class="abstract-text">
           With the impressive in-context learning (ICL) ability of large language models (LLMs),
           <strong>Meta-ICL</strong> improves this capability by training models on example-conditioned inputs
-          across multiple tasks. However, its effectiveness is often limited by the lack of informative
-          and diverse examples, especially in heterogeneous distributed environments where such examples
+          across multiple tasks. However, its effectiveness is often limited by the lack of informative and
+          diverse examples, especially in heterogeneous distributed environments where such examples
           must be constructed from limited local data.
           <br><br>
           To address this challenge, we propose <strong>FINE</strong>,
@@ -351,7 +352,7 @@
           informative example database, and <strong>consensus-aware federated aggregation</strong>,
           which collaboratively integrates ICL adaptation signals across heterogeneous models.
           Extensive experiments across multiple models and benchmark tasks demonstrate that FINE
-          consistently outperforms baselines, achieving an average <strong>22.5% improvement</strong>
+          consistently outperforms baselines, achieving an average <strong>28.5% improvement</strong>
           over Meta-ICL in a heterogeneous distributed setting.
         </p>
       </div>
@@ -359,8 +360,7 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-
-  <!-- MOTIVATION — 작게 -->
+  
   <section>
     <div class="container">
       <div class="section-label">Motivation</div>
@@ -380,8 +380,7 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-
-  <!-- METHOD — 크게 -->
+  
   <section>
     <div class="container">
       <div class="section-label">Method</div>
@@ -405,8 +404,7 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-
-  <!-- CONTRIBUTIONS -->
+  
   <section>
     <div class="container">
       <div class="section-label">Contributions</div>
@@ -437,8 +435,7 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-
-  <!-- MAIN RESULTS -->
+  
   <section>
     <div class="container">
       <div class="section-label">Results</div>
@@ -456,8 +453,7 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-
-  <!-- ROBUSTNESS — 1컬럼 2행 -->
+  
   <section>
     <div class="container">
       <div class="section-label">Analysis</div>
@@ -483,29 +479,39 @@
     </div>
   </section>
 
-  <!-- SCALE -->
+  <div class="container"><div class="divider"></div></div>
+  
   <section>
     <div class="container">
       <div class="section-label">Ablation</div>
-      <h2>Effect of Backbone Scale &amp; MI-Score</h2>
-      <div class="card reveal figure-block" style="max-width:900px; margin: 0 auto;">
-        <img src="assets/fig6_scale.png" alt="Figure 5: Performance across scales and MI-Score vs Performance" />
-        <p class="fig-caption">
-          <strong>Figure 5.</strong>
-          Effect of backbone scale on performance and MI-Score on GLUE.
-          (a) Performance across backbone scales. (b) Average MI-Score versus performance.
-          Higher-performing models tend to show lower average MI-Scores, suggesting that stronger backbones
-          already make confident predictions and thus require less additional uncertainty reduction.
-        </p>
+      <h2>Ablation Studies</h2>
+      <div class="ablation-grid">
+        <div class="card reveal figure-block">
+          <img src="assets/fig6_component_ablation.png" alt="Table 3: Component-wise ablation study" />
+          <p class="fig-caption">
+            <strong>Component-wise Analysis.</strong>
+            The full FINE achieves the best performance, confirming that MI curation, Meta-ICL, and
+            consensus-aware aggregation all contribute to federated Meta-ICL adaptation. Removing either
+            MI curation or consensus-aware aggregation reduces performance, indicating that FINE benefits
+            from both informative example construction and agreement-aware collaborative aggregation.
+          </p>
+        </div>
+        <div class="card reveal figure-block">
+          <img src="assets/fig7_backbone_scale.png" alt="Figure 5: Effect of backbone generation capability" />
+          <p class="fig-caption">
+            <strong>Effect of Backbone Generation Capability.</strong>
+            Performance improves as the backbone scale increases, indicating that stronger generation
+            capability provides more informative candidate examples for Meta-ICL adaptation. This trend
+            is consistently observed across different backbone families, suggesting that FINE is
+            complementary to backbone scaling.
+          </p>
+        </div>
       </div>
     </div>
   </section>
-
-  <div class="container"><div class="divider"></div></div>
-
-  <!-- FOOTER -->
+  
   <footer>
-    <p>FINE &nbsp;·&nbsp; ACL 2025 Anonymous Submission</p>
+    <p>FINE &nbsp;·&nbsp; ARR 2026 Anonymous Submission</p>
     <p style="margin-top:6px;">
       <a href="https://anonymousprojectpage3.github.io/FINE/" target="_blank">Project Page</a>
     </p>
