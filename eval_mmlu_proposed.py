@@ -526,7 +526,7 @@ def parse_seeds(s: str):
         raise ValueError("Empty --seeds")
     seeds = [int(p) for p in parts]
     if len(seeds) < 3:
-        print(f"[WARNING] seeds are < 3: {seeds} (교수님 요구사항이면 3개 이상 권장)")
+        print(f"[WARNING] seeds are < 3: {seeds}")
     return seeds
 
 
