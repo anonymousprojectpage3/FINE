@@ -197,8 +197,6 @@ remaining_df = remaining_df.reset_index().drop('index', axis=1)
 
 if dataset_type.lower() == "dolly":
     data_path = os.path.join("databricks-dolly-15k", str(num_clients))
-elif dataset_type.lower() == "truthful":
-    data_path = os.path.join("TruthfulQA", str(num_clients))
 elif dataset_type.lower() == "mmlu":
     data_path = os.path.join("MMLU", str(num_clients))
 elif dataset_type.lower() == "glue":
