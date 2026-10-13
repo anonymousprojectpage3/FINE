@@ -246,6 +246,11 @@
       margin: 0 auto;
     }
 
+    .fig-md {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
     .fig-lg {
       max-width: 100%;
     }
@@ -301,12 +306,6 @@
 
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: none; }
-
-    .ablation-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 28px;
-    }
   </style>
 </head>
 <body>
@@ -314,7 +313,7 @@
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="blob blob-3"></div>
-  
+
   <header>
     <div class="venue-badge">ARR 2026 Submission</div>
     <h1 class="fade-up delay-1">
@@ -322,7 +321,7 @@
       <span class="highlight">Federated Meta In-Context Learning</span><br>
       with Informative Example Construction
     </h1>
-    <p class="subtitle fade-up delay-2">FINE &nbsp;·&nbsp; Federated Meta <strong>IN</strong>-Context Learning via Informative <strong>E</strong>xample Curation</p>
+    <p class="subtitle fade-up delay-2">FINE &nbsp;·&nbsp; <strong>F</strong>ederated Meta <strong>IN</strong>-Context Learning via Informative <strong>E</strong>xample Curation</p>
 
     <div class="btn-row fade-up delay-4">
       <a class="btn btn-primary" href="https://openreview.net/forum?id=LN2JOrqvwl">
@@ -333,7 +332,7 @@
       </a>
     </div>
   </header>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Abstract</div>
@@ -347,19 +346,19 @@
           To address this challenge, we propose <strong>FINE</strong>,
           <strong>F</strong>ederated Meta <strong>IN</strong>-Context Learning via Informative
           <strong>E</strong>xample Curation. FINE consists of two key mechanisms:
-          <strong>mutual information based example curation</strong>, which automatically constructs an
+          <strong>pointwise information gain-based example curation</strong>, which automatically constructs an
           informative example database, and <strong>consensus-aware federated aggregation</strong>,
           which collaboratively integrates ICL adaptation signals across heterogeneous models.
-          Extensive experiments across multiple models and benchmark tasks demonstrate that FINE
-          consistently outperforms baselines, achieving an average <strong>28.5% improvement</strong>
-          over Meta-ICL in a heterogeneous distributed setting.
+          Extensive experiments across multiple models and tasks show that FINE achieves the best
+          average performance, with a <strong>23.2% improvement</strong> over Meta-ICL in heterogeneous
+          distributed settings.
         </p>
       </div>
     </div>
   </section>
 
   <div class="container"><div class="divider"></div></div>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Motivation</div>
@@ -371,7 +370,7 @@
           Impact of in-context example quality on Meta-ICL performance on GLUE for Llama-3.2-3B.
           Meta-ICL is highly sensitive to example quality, showing that constructing high-quality examples
           is critical in heterogeneous distributed settings.
-          FINE addresses this challenge through mutual information based example curation and
+          FINE addresses this challenge through pointwise information gain-based example curation and
           consensus-aware aggregation.
         </p>
       </div>
@@ -379,7 +378,7 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Method</div>
@@ -389,21 +388,20 @@
         <p class="fig-caption">
           <strong>Figure 2.</strong>
           Overview of FINE.
-          <strong>(1)</strong> Each client first samples a query from its local dataset for task τ and generates
+          <strong>(1)</strong> Each client samples a query from its local dataset for task τ and generates
           candidate examples using a pre-trained LLM.
-          <strong>(2)</strong> The candidates are then evaluated through mutual information based example curation,
-          and <strong>(3)</strong> only examples that reduce entropy and lead to a correct prediction for the query
+          <strong>(2)</strong> The candidates are evaluated through pointwise information gain-based example curation,
+          and <strong>(3)</strong> only examples that reduce entropy and lead to a correct prediction
           are added to the example database.
           Using the curated examples, <strong>(4)</strong> each client meta-trains and sends a client update vector to the server.
-          <strong>(5)</strong> The server finally integrates these updates through consensus-aware federated aggregation
-          and broadcasts the updated global model for the next round.
+          <strong>(5)</strong> The server performs consensus-aware federated aggregation to update the global model.
         </p>
       </div>
     </div>
   </section>
 
   <div class="container"><div class="divider"></div></div>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Contributions</div>
@@ -411,30 +409,30 @@
       <div class="contributions-grid">
         <div class="contrib-card reveal">
           <div class="contrib-icon">🔎</div>
-          <h3>MI-Based Example Curation</h3>
-          <p>Automatically generates and curates informative user-specific examples using a mutual information based criterion, ensuring each retained example reduces prediction uncertainty.</p>
+          <h3>PI-Based Example Curation</h3>
+          <p>Automatically generates and curates informative user-specific examples using a pointwise information gain-based criterion (PI-Score). A candidate is retained only if it reduces the model's uncertainty for the query and leads to a correct prediction.</p>
         </div>
         <div class="contrib-card reveal">
           <div class="contrib-icon">🤝</div>
           <h3>Consensus-Aware Aggregation</h3>
-          <p>Collaboratively integrates ICL adaptation signals across heterogeneous models through parameter-level consensus without sharing local data, improving generalization.</p>
+          <p>Collaboratively integrates ICL adaptation signals across heterogeneous models through parameter-level consensus without sharing local data, preserving consistently supported signals while suppressing conflicting directions.</p>
         </div>
         <div class="contrib-card reveal">
           <div class="contrib-icon">🌐</div>
           <h3>Federated Meta-ICL</h3>
-          <p>Combines Meta-ICL with federated learning to improve transferable ICL capability across heterogeneous clients under realistic non-IID data distributions.</p>
+          <p>Improves ICL capability in heterogeneous distributed environments, addressing the challenge of constructing high-quality and diverse example pools from limited user-specific data.</p>
         </div>
         <div class="contrib-card reveal">
           <div class="contrib-icon">📊</div>
           <h3>Extensive Validation</h3>
-          <p>Experiments across multiple models (Qwen, Llama) and diverse tasks (GLUE, MMLU, Dolly-15k) under a wide range of heterogeneous distributed settings.</p>
+          <p>Experiments across four backbones (Qwen-3-4B, Qwen-3-14B, Llama-3.2-3B, Llama-3.1-8B) and four benchmarks (MMLU, Dolly-15k, CFPB, GLUE) under a wide range of heterogeneous distributed settings.</p>
         </div>
       </div>
     </div>
   </section>
 
   <div class="container"><div class="divider"></div></div>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Results</div>
@@ -443,16 +441,17 @@
         <img src="assets/fig3_table1.png" alt="Table 1: Main results on all benchmarks" />
         <p class="fig-caption">
           <strong>Table 1.</strong>
-          Main results on all benchmarks across different backbone models.
-          The best performance within each backbone is highlighted in bold.
-          FINE significantly outperforms all baseline methods across all evaluated tasks and backbone models.
+          Main results on all benchmarks across different backbones.
+          The best performance is highlighted in bold.
+          FINE achieves the highest average performance across all evaluated benchmarks and backbone models
+          and outperforms the baselines on the large majority of individual tasks.
         </p>
       </div>
     </div>
   </section>
 
   <div class="container"><div class="divider"></div></div>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Analysis</div>
@@ -462,15 +461,18 @@
           <img src="assets/fig4_heterogeneity.png" alt="Figure 3: Data heterogeneity and client-level performance" />
           <p class="fig-caption">
             <strong>Figure 3.</strong>
-            Data heterogeneity and client-level performance under different Dirichlet α on GLUE for Llama-3.2-3B.
-            FINE shows noticeably smaller performance variation across clients than Meta-ICL.
+            Data heterogeneity and client-level performance under different Dirichlet α on GLUE for Llama-3.2-3B,
+            where smaller values indicate more non-IID settings.
+            As heterogeneity increases, the gap across clients becomes larger for Meta-ICL,
+            while FINE maintains relatively consistent performance across clients.
           </p>
         </div>
-        <div class="card reveal figure-block" style="max-width: 680px; margin: 0 auto;">
+        <div class="card reveal figure-block fig-md">
           <img src="assets/fig5_worstcase.png" alt="Figure 4: Worst-performing task and task-wise performance" />
           <p class="fig-caption">
             <strong>Figure 4.</strong>
             (a) Worst-performing task performance and (b) task-wise performance comparison on GLUE for Qwen-3-4B.
+            In (b), scores are normalized within each task, with the best-performing method scaled to 100.
             FINE achieves the strongest performance on the worst-performing task among all methods.
           </p>
         </div>
@@ -479,36 +481,24 @@
   </section>
 
   <div class="container"><div class="divider"></div></div>
-  
+
   <section>
     <div class="container">
       <div class="section-label">Ablation</div>
       <h2>Ablation Studies</h2>
-      <div class="ablation-grid">
-        <div class="card reveal figure-block">
-          <img src="assets/fig6_component_ablation.png" alt="Table 3: Component-wise ablation study" />
-          <p class="fig-caption">
-            <strong>Component-wise Analysis.</strong>
-            The full FINE achieves the best performance, confirming that MI curation, Meta-ICL, and
-            consensus-aware aggregation all contribute to federated Meta-ICL adaptation. Removing either
-            MI curation or consensus-aware aggregation reduces performance, indicating that FINE benefits
-            from both informative example construction and agreement-aware collaborative aggregation.
-          </p>
-        </div>
-        <div class="card reveal figure-block">
-          <img src="assets/fig7_backbone_scale.png" alt="Figure 5: Effect of backbone generation capability" />
-          <p class="fig-caption">
-            <strong>Effect of Backbone Generation Capability.</strong>
-            Performance improves as the backbone scale increases, indicating that stronger generation
-            capability provides more informative candidate examples for Meta-ICL adaptation. This trend
-            is consistently observed across different backbone families, suggesting that FINE is
-            complementary to backbone scaling.
-          </p>
-        </div>
+      <div class="card reveal figure-block fig-md">
+        <img src="assets/fig6_component_ablation.png" alt="Table 4: Component-wise ablation study" />
+        <p class="fig-caption">
+          <strong>Component-wise Ablation.</strong>
+          The full FINE achieves the best performance, confirming that PI-based curation, Meta-ICL, and
+          consensus-aware aggregation all contribute to performance. Removing either PI-based curation
+          or consensus-aware aggregation reduces performance, indicating that FINE benefits from both
+          informative example construction and agreement-aware collaboration.
+        </p>
       </div>
     </div>
   </section>
-  
+
   <footer>
     <p>FINE &nbsp;·&nbsp; ARR 2026 Anonymous Submission</p>
     <p style="margin-top:6px;">
@@ -527,3 +517,4 @@
   </script>
 </body>
 </html>
+EOF
